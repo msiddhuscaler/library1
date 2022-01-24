@@ -1,24 +1,56 @@
-# README
+# Library Management System
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+![db](https://user-images.githubusercontent.com/97033987/150765112-d38de3b1-1570-4260-93c6-fb69dd424c03.png)
 
-* Ruby version
 
-* System dependencies
+      Enum categories{
+        fiction
+        science 
+        history
+        education
+      }
 
-* Configuration
 
-* Database creation
+      Enum entity{
+        person
+        book
+      }
 
-* Database initialization
 
-* How to run the test suite
+      Table books {
+        uid int [pk, increment] // auto-increment
+        title varchar
+        author varchar
+        category categories
+        copies int
+      }
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+      Table persons {
+        id int [pk,increment]
+        full_name varchar
+        phone_number varchar[10]
+        email varchar
+      }
 
-* ...
+
+      Table borrower{
+        borrower_id int  [pk,increment]
+        uid int  [ref: > books.uid]
+        person_id int [ref: > persons.id]
+        borrowed_date timestamp
+        due_date timestamp
+        is_returned bool
+      }
+
+
+      Table availablity{
+        id int [pk,increment]
+        entity entity
+        entity_id int 
+        available int 
+      }
+
+      Ref: availablity.entity_id > books.uid
+      Ref: availablity.entity_id > persons.id

@@ -1,14 +1,15 @@
 # Library Management System
 
+![Library Management System](https://user-images.githubusercontent.com/97033987/151696123-25145ba4-084e-498f-b8f3-4693fb590f1e.png)
 
-![db](https://user-images.githubusercontent.com/97033987/150765112-d38de3b1-1570-4260-93c6-fb69dd424c03.png)
 
 
-      Enum categories{
-        fiction
-        science 
-        history
-        education
+      
+
+
+      Enum status{
+        active
+        inactive
       }
 
 
@@ -19,15 +20,20 @@
 
 
       Table books {
-        uid int [pk, increment] // auto-increment
+        uid bigint [pk, increment] // auto-increment
         title varchar
         author varchar
-        category categories
+        category_id int [ref: > category.id]
         copies int
+
+        Indexes {
+          (author) 
+          (title) 
+        }
       }
 
 
-      Table persons {
+      Table users {
         id int [pk,increment]
         full_name varchar
         phone_number varchar[10]
@@ -35,22 +41,34 @@
       }
 
 
-      Table borrower{
-        borrower_id int  [pk,increment]
-        uid int  [ref: > books.uid]
-        person_id int [ref: > persons.id]
+      Table borrowers{
+        id int  [pk,increment]
+        book_uid int  [ref: > books.uid]
+        user_id int [ref: > users.id]
         borrowed_date timestamp
         due_date timestamp
-        is_returned bool
+        status status
       }
 
 
       Table availablity{
         id int [pk,increment]
-        entity entity
-        entity_id int 
+        entity_type entity
+        entity_id bigint
         available int 
       }
 
+      Table category{
+        id int [pk,increment]
+        name varchar
+        Indexes{
+          (name)
+        }
+      }
+
       Ref: availablity.entity_id > books.uid
-      Ref: availablity.entity_id > persons.id
+      Ref: availablity.entity_id > users.id
+
+
+
+

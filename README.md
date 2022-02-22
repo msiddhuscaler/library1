@@ -1,24 +1,74 @@
-# README
+# Library Management System
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+![Library Management System](https://user-images.githubusercontent.com/97033987/151696123-25145ba4-084e-498f-b8f3-4693fb590f1e.png)
 
-Things you may want to cover:
 
-* Ruby version
 
-* System dependencies
+      
 
-* Configuration
 
-* Database creation
+      Enum status{
+        active
+        inactive
+      }
 
-* Database initialization
 
-* How to run the test suite
+      Enum entity{
+        person
+        book
+      }
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+      Table books {
+        uid bigint [pk, increment] // auto-increment
+        title varchar
+        author varchar
+        category_id int [ref: > category.id]
+        copies int
 
-* ...
+        Indexes {
+          (author) 
+          (title) 
+        }
+      }
+
+
+      Table users {
+        id int [pk,increment]
+        full_name varchar
+        phone_number varchar[10]
+        email varchar
+      }
+
+
+      Table borrowers{
+        id int  [pk,increment]
+        book_uid int  [ref: > books.uid]
+        user_id int [ref: > users.id]
+        borrowed_date timestamp
+        due_date timestamp
+        status status
+      }
+
+
+      Table availablity{
+        id int [pk,increment]
+        entity_type entity
+        entity_id bigint
+        available int 
+      }
+
+      Table category{
+        id int [pk,increment]
+        name varchar
+        Indexes{
+          (name)
+        }
+      }
+
+      Ref: availablity.entity_id > books.uid
+      Ref: availablity.entity_id > users.id
+
+
+
+
